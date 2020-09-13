@@ -1,5 +1,8 @@
 ---
-output: github_document
+output: 
+  github_document:
+    pandoc_args: --webtex
+
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -56,8 +59,8 @@ fit_polls <- yapa(y = y, n = n, poll_dates = poll_dates)
 
 ```{r obama_mccain_res}
 
-plot(fit_polls, size = 0.8) + 
-  ylim(0.3, 0.7) +
+plot(fit_polls, size = 0.5) + 
+  ylim(0.3, 0.6) +
   scale_x_date(date_breaks = '1 month') +
   scale_fill_manual(values = c('red', 'blue')) +
   scale_color_manual(values = c('red', 'blue')) +
@@ -102,10 +105,10 @@ plot(fit_gss) +
 # Model
 
 $$
-\begin{align}
+\begin{align*}
 y_{p, o} &\sim Binomial(n_p, \theta_{p, o}) \\
 \theta_{p, o} &\sim Normal(\mu_{d(p), o}, \sigma^\theta) \\
 \mu_{d, o} &= \sum_{t < d} \delta_{t, o} + \alpha_o \\
 \delta_{d, o} &\sim Normal(\delta_{d-1, o}, \sigma^\delta)
-\end{align}
+\end{align*}
 $$

@@ -52,8 +52,8 @@ fit_polls <- yapa(y = y, n = n, poll_dates = poll_dates)
 
 ``` r
 
-plot(fit_polls, size = 0.8) + 
-  ylim(0.3, 0.7) +
+plot(fit_polls, size = 0.5) + 
+  ylim(0.3, 0.6) +
   scale_x_date(date_breaks = '1 month') +
   scale_fill_manual(values = c('red', 'blue')) +
   scale_color_manual(values = c('red', 'blue')) +
@@ -104,11 +104,20 @@ plot(fit_gss) +
 
 # Model
 
-\[
-\begin{align}
-y_{p, o} &\sim Binomial(n_p, \theta_{p, o}) \\
-\theta_{p, o} &\sim Normal(\mu_{d(p), o}, \sigma^\theta) \\
-\mu_{d, o} &= \sum_{t < d} \delta_{t, o} + \alpha_o \\
-\delta_{d, o} &\sim Normal(\delta_{d-1, o}, \sigma^\delta)
-\end{align}
-\]
+  
+![
+\\begin{align\*}
+y\_{p, o} &\\sim Binomial(n\_p, \\theta\_{p, o}) \\\\
+\\theta\_{p, o} &\\sim Normal(\\mu\_{d(p), o}, \\sigma^\\theta) \\\\
+\\mu\_{d, o} &= \\sum\_{t \< d} \\delta\_{t, o} + \\alpha\_o \\\\
+\\delta\_{d, o} &\\sim Normal(\\delta\_{d-1, o}, \\sigma^\\delta)
+\\end{align\*}
+](https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Balign%2A%7D%0Ay_%7Bp%2C%20o%7D%20%26%5Csim%20Binomial%28n_p%2C%20%5Ctheta_%7Bp%2C%20o%7D%29%20%5C%5C%0A%5Ctheta_%7Bp%2C%20o%7D%20%26%5Csim%20Normal%28%5Cmu_%7Bd%28p%29%2C%20o%7D%2C%20%5Csigma%5E%5Ctheta%29%20%5C%5C%0A%5Cmu_%7Bd%2C%20o%7D%20%26%3D%20%5Csum_%7Bt%20%3C%20d%7D%20%5Cdelta_%7Bt%2C%20o%7D%20%2B%20%5Calpha_o%20%5C%5C%0A%5Cdelta_%7Bd%2C%20o%7D%20%26%5Csim%20Normal%28%5Cdelta_%7Bd-1%2C%20o%7D%2C%20%5Csigma%5E%5Cdelta%29%0A%5Cend%7Balign%2A%7D%0A
+"
+\\begin{align*}
+y_{p, o} &\\sim Binomial(n_p, \\theta_{p, o}) \\\\
+\\theta_{p, o} &\\sim Normal(\\mu_{d(p), o}, \\sigma^\\theta) \\\\
+\\mu_{d, o} &= \\sum_{t \< d} \\delta_{t, o} + \\alpha_o \\\\
+\\delta_{d, o} &\\sim Normal(\\delta_{d-1, o}, \\sigma^\\delta)
+\\end{align*}
+")
