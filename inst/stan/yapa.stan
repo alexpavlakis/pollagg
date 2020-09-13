@@ -31,8 +31,8 @@ model {
     }
   }
   intercept ~ normal(0.5, 1);
-  theta_sigma  ~ cauchy(0, 1);
-  delta_sigma ~ cauchy(0, 1);
+  theta_sigma  ~ normal(0, 0.1);
+  delta_sigma ~ normal(0, 0.05);
 
   for(o in 1:n_options) {
     for(p in 1:n_polls) {

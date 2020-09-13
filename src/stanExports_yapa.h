@@ -381,9 +381,9 @@ public:
             current_statement_begin__ = 33;
             lp_accum__.add(normal_log<propto__>(intercept, 0.5, 1));
             current_statement_begin__ = 34;
-            lp_accum__.add(cauchy_log<propto__>(theta_sigma, 0, 1));
+            lp_accum__.add(normal_log<propto__>(theta_sigma, 0, 0.1));
             current_statement_begin__ = 35;
-            lp_accum__.add(cauchy_log<propto__>(delta_sigma, 0, 1));
+            lp_accum__.add(normal_log<propto__>(delta_sigma, 0, 0.05));
             current_statement_begin__ = 37;
             for (int o = 1; o <= n_options; ++o) {
                 current_statement_begin__ = 38;
