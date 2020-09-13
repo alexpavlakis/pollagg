@@ -7,8 +7,8 @@
 
 <!-- badges: end -->
 
-`pollagg` is a tool for researches who want to understand trends in
-public opinion from many sometimes noisy polls or surveys.
+`pollagg` is a tool for researchers who want to understand trends in
+public opinion from many noisy polls or surveys.
 
 ## Installation
 
@@ -24,6 +24,9 @@ devtools::install_github("alexpavlakis/pollagg")
 library(pollagg)
 suppressMessages(library(dplyr))
 library(ggplot2)
+
+options(mc.cores = parallel::detectCores())
+rstan::rstan_options(auto_write = TRUE)
 
 # General election polls - Obama vs McCain 2008
 head(obama_mccain_polls)
@@ -49,7 +52,7 @@ fit_polls <- yapa(y = y, n = n, poll_dates = poll_dates)
 
 ``` r
 
-plot(fit_polls) + 
+plot(fit_polls, size = 0.8) + 
   ylim(0.3, 0.7) +
   scale_x_date(date_breaks = '1 month') +
   scale_fill_manual(values = c('red', 'blue')) +
@@ -59,7 +62,6 @@ plot(fit_polls) +
         legend.position = 'bottom') +
   labs(x = NULL, y = NULL, title = 'General Election: McCain vs. Obama',
        subtitle = 'polls (faint dots), modeled polls (bold dots), trend (line), and trend uncertainty (faded ribbon)', col = NULL, fill = NULL)
-#> Warning: Ignoring unknown aesthetics: ymin, ymax, fill
 ```
 
 <img src="man/figures/README-obama_mccain_res-1.png" width="100%" />
@@ -96,7 +98,17 @@ plot(fit_gss) +
         legend.position = 'bottom') +
   labs(x = NULL, y = NULL, title = 'Should marijuana be made legal?',
        subtitle = 'survey results (faint dots), modeled survey results (bold dots), trend (line), and trend uncertainty (faded ribbon)', col = NULL, fill = NULL)
-#> Warning: Ignoring unknown aesthetics: ymin, ymax, fill
 ```
 
 <img src="man/figures/README-gss_res-1.png" width="100%" />
+
+# Model
+
+\[
+\begin{align}
+y_{p, o} &\sim Binomial(n_p, \theta_{p, o}) \\
+\theta_{p, o} &\sim Normal(\mu_{d(p), o}, \sigma^\theta) \\
+\mu_{d, o} &= \sum_{t < d} \delta_{t, o} + \alpha_o \\
+\delta_{d, o} &\sim Normal(\delta_{d-1, o}, \sigma^\delta)
+\end{align}
+\]

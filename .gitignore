@@ -3,4 +3,4 @@
 .Rhistory
 .RData
 .DS_Store
-README_cache/*
+README_cache/**

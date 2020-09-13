@@ -90,15 +90,15 @@ yapa.fit <- function(model_data, ...) {
 }
 
 
-plot_yapa <- function(yapafit, ...) {
+plot_yapa <- function(yapafit, size = 1, ...) {
 
   p <- ggplot() +
     geom_point(data = yapafit$data,
                aes(x = date, y = pct, col = answer),
-               alpha = 0.2) +
+               alpha = 0.2, size = size) +
     geom_point(data = yapafit$pct,
                aes(x = date, y = mean, col = answer),
-               alpha = 1) +
+               alpha = 1, size = size) +
     geom_line(data = yapafit$trend,
               aes(x = date, y = mean, ymin = lower, ymax = upper, col = answer,
                   fill = answer), lty = 2) +
@@ -115,5 +115,7 @@ plot_yapa <- function(yapafit, ...) {
 #' @param x a yapafit model
 #' @export
 plot.yapafit <- function(x, ...) {
-  plot_yapa(x)
+  suppressWarnings(
+    plot_yapa(x, ...)
+  )
 }
