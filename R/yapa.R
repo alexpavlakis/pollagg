@@ -14,6 +14,13 @@
 #' @export
 yapa <- function(y, n, poll_dates, dates = NULL) {
 
+  if(!all.equal(nrow(y), length(n), length(poll_dates))) {
+    stop("nrow(y) must equal length(n) and length(poll_dates")
+  }
+  if(!all(rowSums(y) < n)) {
+    stop("rowSums(y) must be less than n")
+  }
+
   if(is.null(dates)) dates <- poll_dates
 
   model_data <- list(
@@ -27,7 +34,6 @@ yapa <- function(y, n, poll_dates, dates = NULL) {
 
   # Fit model
   fit <- yapa.fit(model_data)
-
   ef <- rstan::extract(fit)
 
   # Extract trend

@@ -20,6 +20,20 @@ devtools::install_github("alexpavlakis/pollagg")
 
 # Examples
 
+The function `yapa` (yet another poll aggregator) takes three main
+arguments:
+
+1.  `y` is a matrix of counts for responses (columns) for each poll or
+    survey (rows);
+2.  `n` is a vector of the total counts for each poll or survey;
+3.  `poll_dates` is a vector of dates (can be days or integers) for when
+    each poll or survey was conducted;
+
+An additional argument `dates` is available if you want to produce
+specific estimates for dates other than survey dates. For example, if
+you conduct surveys on the first of each month but want to estimate
+hypothetical results if you had conducted them on the 15th instead.
+
 ``` r
 library(pollagg)
 suppressMessages(library(dplyr))
@@ -41,6 +55,9 @@ head(obama_mccain_polls)
 #> 6 USA Today/Gallup 2008-01-13  1106          553         498
 ```
 
+In this example we aggregate all polls conducted of the 2008
+presidential race between January 1st and election day 2008.
+
 ``` r
 
 y <- select(obama_mccain_polls, `McCain (R)`, `Obama (D)`)
@@ -51,7 +68,6 @@ fit_polls <- yapa(y = y, n = n, poll_dates = poll_dates)
 ```
 
 ``` r
-
 plot(fit_polls, size = 0.5) + 
   ylim(0.3, 0.6) +
   scale_x_date(date_breaks = '1 month') +
@@ -65,6 +81,11 @@ plot(fit_polls, size = 0.5) +
 ```
 
 <img src="man/figures/README-obama_mccain_res-1.png" width="100%" />
+
+In this example we analyze the trends in responses to the General Social
+Survey question regarding the legality of marijuana between 1973 and
+2018, and we estimate what responses might be in 2022 based on those
+trends.
 
 ``` r
 head(grass_gss)
@@ -84,11 +105,10 @@ y <- select(grass_gss, legal, illegal)
 n <- grass_gss$n
 poll_dates <- grass_gss$year
 
-fit_gss <- yapa(y = y, n = n, poll_dates = poll_dates)
+fit_gss <- yapa(y = y, n = n, poll_dates = poll_dates, dates = c(poll_dates, 2022))
 ```
 
 ``` r
-
 plot(fit_gss) + 
   ylim(0, 1) +
   scale_fill_manual(values = c('darkgrey', 'darkgreen')) +
