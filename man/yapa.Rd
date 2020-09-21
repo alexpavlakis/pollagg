@@ -4,7 +4,16 @@
 \alias{yapa}
 \title{fit a yapa model}
 \usage{
-yapa(y, n, poll_dates, dates = NULL)
+yapa(
+  y,
+  n,
+  dates = NULL,
+  all_dates = NULL,
+  prior_pct = NULL,
+  chains = 4,
+  iter = 2000,
+  ...
+)
 }
 \arguments{
 \item{y}{a matrix of poll respondent counts.}
@@ -12,6 +21,16 @@ yapa(y, n, poll_dates, dates = NULL)
 \item{n}{a vector of poll sample sizes.}
 
 \item{dates}{a vector of poll dates.}
+
+\item{all_dates}{a vector of all dates to estimate the trend for. The default is the unique poll dates.}
+
+\item{prior_pct}{a vector of prior percents on the trend for each option.}
+
+\item{chains}{mcmc chains passed to stan.}
+
+\item{iter}{iter passed to stan.}
+
+\item{...}{Other arguments}
 }
 \description{
 fit a yapa model

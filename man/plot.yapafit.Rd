@@ -7,7 +7,9 @@
 \method{plot}{yapafit}(x, ...)
 }
 \arguments{
-\item{x}{a yapafit model}
+\item{x}{a yapafit model.}
+
+\item{...}{additional arguments.}
 }
 \description{
 plot a yapa model

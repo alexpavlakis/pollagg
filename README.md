@@ -26,10 +26,10 @@ arguments:
 1.  `y` is a matrix of counts for responses (columns) for each poll or
     survey (rows);
 2.  `n` is a vector of the total counts for each poll or survey;
-3.  `poll_dates` is a vector of dates (can be days or integers) for when
-    each poll or survey was conducted;
+3.  `dates` is a vector of dates (can be days or integers) for when each
+    poll or survey was conducted;
 
-An additional argument `dates` is available if you want to produce
+An additional argument `all_dates` is available if you want to produce
 specific estimates for dates other than survey dates. For example, if
 you conduct surveys on the first of each month but want to estimate
 hypothetical results if you had conducted them on the 15th instead.
@@ -38,7 +38,6 @@ hypothetical results if you had conducted them on the 15th instead.
 library(pollagg)
 suppressMessages(library(dplyr))
 library(ggplot2)
-
 options(mc.cores = parallel::detectCores())
 rstan::rstan_options(auto_write = TRUE)
 
@@ -62,9 +61,9 @@ presidential race between January 1st and election day 2008.
 
 y <- select(obama_mccain_polls, `McCain (R)`, `Obama (D)`)
 n <- obama_mccain_polls$n
-poll_dates <- obama_mccain_polls$poll_end
+dates <- obama_mccain_polls$poll_end
 
-fit_polls <- yapa(y = y, n = n, poll_dates = poll_dates)
+fit_polls <- yapa(y = y, n = n, dates = dates)
 ```
 
 ``` r
@@ -103,9 +102,9 @@ head(grass_gss)
 ``` r
 y <- select(grass_gss, legal, illegal)
 n <- grass_gss$n
-poll_dates <- grass_gss$year
+dates <- grass_gss$year
 
-fit_gss <- yapa(y = y, n = n, poll_dates = poll_dates, dates = c(poll_dates, 2022))
+fit_gss <- yapa(y = y, n = n, dates = dates, all_dates = c(dates, 2022))
 ```
 
 ``` r
