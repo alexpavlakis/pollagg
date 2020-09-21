@@ -19,17 +19,12 @@
 #' @export
 yapa <- function(y, n, dates = NULL, all_dates = NULL, prior_pct = NULL,
                  chains = 4, iter = 2000, ...) {
-  kwargs <- list(...)
-  poll_dev_sigma <- ifelse(is.null(kwargs$poll_dev_sigma), 0.01, kwargs$poll_dev_sigma)
-  trend_dev_sigma <- ifelse(is.null(kwargs$trend_dev_sigma), 0.01, kwargs$trend_dev_sigma)
   m <- list(
     y = as.matrix(y),
     n = n,
     dates = dates,
     all_dates = all_dates,
     prior_pct = prior_pct,
-    poll_dev_sigma = poll_dev_sigma,
-    trend_dev_sigma = trend_dev_sigma,
     chains = chains,
     iter = iter
   )
@@ -182,11 +177,10 @@ plot_yapa <- function(yapafit, size = 1, se = TRUE,
                aes(x = date, y = mean, col = answer),
                alpha = model_alpha, size = size) +
     geom_line(data = yapafit$trend,
-              aes(x = date, y = mean, ymin = lower, ymax = upper, col = answer,
-                  fill = answer), lty = 2) +
+              aes(x = date, y = mean, col = answer), lty = 2) +
     geom_ribbon(data = yapafit$trend,
-                aes(x = date, y = mean, ymin = lower, ymax = upper, col = answer,
-                    fill = answer),
+                aes(x = date, y = mean, ymin = lower, ymax = upper,
+                    col = answer, fill = answer),
                 col = NA, alpha = se_alpha) +
     theme_minimal() +
     guides(fill = FALSE)
@@ -197,6 +191,7 @@ plot_yapa <- function(yapafit, size = 1, se = TRUE,
 #'
 #' @param x a yapafit model.
 #' @param ... additional arguments.
+#'
 #' @export
 plot.yapafit <- function(x, ...) {
   suppressWarnings(

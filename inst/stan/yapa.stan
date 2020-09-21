@@ -5,8 +5,6 @@ data {
   int y[n_polls, n_options];
   int n[n_polls];
   int day_id[n_polls];
-  real<lower = 0> poll_dev_sigma;
-  real<lower = 0> trend_dev_sigma;
   real<lower = 0, upper = 1> prior_pct[n_options];
 }
 parameters {
@@ -15,7 +13,6 @@ parameters {
   real<lower = 0, upper = 1> alpha[n_options];
   real<lower = 0> theta_sigma;
   real<lower = 0> delta_sigma;
-  real<lower = 0> alpha_sigma;
 }
 transformed parameters {
   matrix[n_days, n_options] mu;
@@ -30,15 +27,11 @@ transformed parameters {
 }
 model {
   // priors
-  alpha ~ normal(prior_pct, alpha_sigma);
-  alpha_sigma ~ normal(0, 0.5);
-  theta_sigma  ~ normal(0, poll_dev_sigma);
-  delta_sigma ~ normal(0, trend_dev_sigma);
+  alpha ~ normal(prior_pct, 0.1);
+  theta_sigma  ~ normal(0, 0.05);
+  delta_sigma ~ normal(0, 0.05);
   for(o in 1:n_options) {
-    delta[1, o] ~ normal(0, 1);
-    for(i in 2:n_days) {
-      delta[i, o] ~ normal(delta[i-1, o], delta_sigma);
-    }
+    delta[, o] ~ normal(0, delta_sigma);
   }
   // model
   for(o in 1:n_options) {

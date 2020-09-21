@@ -44,7 +44,6 @@ An additional argument `all_dates` is available if you want to produce specific 
 ```{r obama_mccain_data}
 library(pollagg)
 suppressMessages(library(dplyr))
-library(ggplot2)
 options(mc.cores = parallel::detectCores())
 rstan::rstan_options(auto_write = TRUE)
 
@@ -79,7 +78,7 @@ plot(fit_polls, size = 0.5) +
        subtitle = 'polls (faint dots), modeled polls (bold dots), trend (line), and trend uncertainty (faded ribbon)', col = NULL, fill = NULL)
 ```
 
-In this example we analyze the trends in responses to the General Social Survey question regarding the legality of marijuana between 1973 and 2018, and we estimate what responses might be in 2022 based on those trends.
+In this example we analyze the trends in responses to the General Social Survey question regarding the legality of marijuana between 1973 and 2018.
 
 
 ```{r gss_data}
@@ -91,15 +90,15 @@ y <- select(grass_gss, legal, illegal)
 n <- grass_gss$n
 dates <- grass_gss$year
 
-fit_gss <- yapa(y = y, n = n, dates = dates, all_dates = c(dates, 2022))
+fit_gss <- yapa(y = y, n = n, dates = dates)
 
 ```
 
 ```{r gss_res}
 plot(fit_gss) + 
   ylim(0, 1) +
-  scale_fill_manual(values = c('darkgrey', 'darkgreen')) +
-  scale_color_manual(values = c('darkgrey', 'darkgreen')) +
+  scale_fill_manual(values = c('darkgreen', 'darkgrey')) +
+  scale_color_manual(values = c('darkgreen', 'darkgrey')) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         plot.subtitle = element_text(size = 9),
         legend.position = 'bottom') +
@@ -117,6 +116,5 @@ $$
 y_{p, o} &\sim Binomial(n_p, \theta_{p, o}) \\
 \theta_{p, o} &\sim Normal(\mu_{d(p), o}, \sigma^\theta) \\
 \mu_{d, o} &= \sum_{t < d} \delta_{t, o} + \alpha_o \\
-\delta_{d, o} &\sim Normal(\delta_{d-1, o}, \sigma^\delta)
 \end{align*}
 $$
