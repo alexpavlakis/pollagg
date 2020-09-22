@@ -7,8 +7,9 @@
 
 <!-- badges: end -->
 
-`pollagg` is a tool for researchers who want to understand trends in
-public opinion from many noisy polls or surveys.
+`pollagg` is an out-of-the-box poll aggregator for researchers who want
+to understand trends in public opinion from multiple polls or surveys
+taken over time.
 
 ## Installation
 
@@ -20,19 +21,33 @@ devtools::install_github("alexpavlakis/pollagg")
 
 # Examples
 
-The function `yapa` (yet another poll aggregator) takes three main
+The main function `yapa` (yet another poll aggregator) takes three main
 arguments:
 
 1.  `y` is a matrix of counts for responses (columns) for each poll or
     survey (rows);
 2.  `n` is a vector of the total counts for each poll or survey;
-3.  `dates` is a vector of dates (can be days or integers) for when each
-    poll or survey was conducted;
+3.  `dates` is a vector of dates (can be dates or numeric) for when each
+    poll or survey was conducted.
 
 An additional argument `all_dates` is available if you want to produce
 specific estimates for dates other than survey dates. For example, if
 you conduct surveys on the first of each month but want to estimate
 hypothetical results if you had conducted them on the 15th instead.
+
+`yapa` returns a list with:
+
+  - `trend` a `data.frame` of the underlying trend and it’s 90%
+    uncertainty interval;
+  - `pct` a `data.frame` of the smoothed poll averages and their 90%
+    uncertainty intervals;
+  - `delta` a `data.frame` of the estimated changes in trend and their
+    90% uncertainty intervals;
+  - `polls` a `data.frame` of the raw polling data on which the model is
+    built;
+  - And other elements from the model arguments and results.
+
+<!-- end list -->
 
 ``` r
 library(pollagg)
@@ -53,8 +68,11 @@ head(obama_mccain_polls)
 #> 6 USA Today/Gallup 2008-01-13  1106          553         498
 ```
 
-In this example we aggregate all polls conducted of the 2008
-presidential race between January 1st and election day 2008.
+In this example, we aggregate all polls conducted of the 2008
+presidential race between January 1st and election day 2008. This is a
+very noisy series but the model is able to pick up on the underlying
+trend as well as clear breaks, such as the collapse of Lehman Brothers
+on September 15th, which pushed the popular vote toward Barack Obama.
 
 ``` r
 
@@ -80,9 +98,9 @@ plot(fit_polls, size = 0.5) +
 
 <img src="man/figures/README-obama_mccain_res-1.png" width="100%" />
 
-In this example we analyze the trends in responses to the General Social
-Survey question regarding the legality of marijuana between 1973 and
-2018.
+The model can also estimate clear trends from large-sample, precise
+surveys, such as trends in responses to the General Social Survey
+question regarding the legality of marijuana between 1973 and 2018.
 
 ``` r
 head(grass_gss)
@@ -121,7 +139,22 @@ plot(fit_gss) +
 
 <img src="man/figures/README-gss_res-1.png" width="100%" />
 
-# Model
+# Methodology
+
+The underlying framework is a hierarchical, nonlinear model which
+partially pools poll averages
+(![\\theta](https://latex.codecogs.com/png.latex?%5Ctheta "\\theta"))
+for each option (![o](https://latex.codecogs.com/png.latex?o "o")) in
+each poll (![p](https://latex.codecogs.com/png.latex?p "p")) toward
+their trend (![\\mu](https://latex.codecogs.com/png.latex?%5Cmu "\\mu"))
+on each day (![d](https://latex.codecogs.com/png.latex?d "d")). The
+trend is estimated from a baseline rate
+(![\\alpha](https://latex.codecogs.com/png.latex?%5Calpha "\\alpha"))
+and daily changes
+(![\\delta](https://latex.codecogs.com/png.latex?%5Cdelta "\\delta")),
+which naturally estimates nonlinear trends.
+
+The model is fit with [Stan](www.https://mc-stan.org/).
 
   
 ![

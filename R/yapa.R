@@ -4,10 +4,20 @@
 #' @param n a vector of poll sample sizes.
 #' @param dates a vector of poll dates.
 #' @param all_dates a vector of all dates to estimate the trend for. The default is the unique poll dates.
-#' @param prior_pct a vector of prior percents on the trend for each option.
+#' @param prior_pct a vector of prior percents on the trend for each option. The default is NULL and estimated from the first poll in the series.
 #' @param chains mcmc chains passed to stan.
 #' @param iter iter passed to stan.
-#' @param ... Other arguments
+#' @param ... other arguments
+#'
+#' @section Model Output: Yapa returns an object of class yapafit, which is a list containing:
+#' * `trend` a `data.frame` of the underlying trend and it's 90% uncertainty interval;
+#' * `pct` a `data.frame` of the smoothed poll averages and their 90% uncertainty intervals;
+#' * `polls` a `data.frame` of the raw polling data on which the model is built;
+#' * `stanfit` the result of the call to Stan;
+#' * `params` the extracted stanfit object;
+#' * other elements from the model arguments and results.
+#'
+#' `plot.yapafit` plots the fitted trend along with raw polls (faint dots) and smoothed polls (solid dots).
 #'
 #' @import methods
 #' @import Rcpp
@@ -195,5 +205,27 @@ plot.yapafit <- function(x, ...) {
   suppressWarnings(
     plot_yapa(x, ...)
   )
+}
+
+
+#' print a yapa model
+#'
+#' @param x a yapafit model.
+#' @param ... additional arguments.
+#'
+#' @export
+print.yapafit <- function(x, ...) print(x[10:13])
+
+#' summarize a yapa model
+#'
+#' @param x a yapafit model.
+#' @param ... additional arguments.
+#'
+#' @export
+summary.yapafit <- function(x, ...) {
+  list("delta" = summary(x$delta),
+       "polls" = summary(x$polls),
+       "pct" = summary(x$pct),
+       "trend" = summary(x$trend))
 }
 
