@@ -37,7 +37,6 @@ hypothetical results if you had conducted them on the 15th instead.
 ``` r
 library(pollagg)
 suppressMessages(library(dplyr))
-library(ggplot2)
 options(mc.cores = parallel::detectCores())
 rstan::rstan_options(auto_write = TRUE)
 
@@ -83,8 +82,7 @@ plot(fit_polls, size = 0.5) +
 
 In this example we analyze the trends in responses to the General Social
 Survey question regarding the legality of marijuana between 1973 and
-2018, and we estimate what responses might be in 2022 based on those
-trends.
+2018.
 
 ``` r
 head(grass_gss)
@@ -100,18 +98,20 @@ head(grass_gss)
 ```
 
 ``` r
+
 y <- select(grass_gss, legal, illegal)
 n <- grass_gss$n
 dates <- grass_gss$year
 
-fit_gss <- yapa(y = y, n = n, dates = dates, all_dates = c(dates, 2022))
+fit_gss <- yapa(y = y, n = n, dates = dates)
 ```
 
 ``` r
+
 plot(fit_gss) + 
   ylim(0, 1) +
-  scale_fill_manual(values = c('darkgrey', 'darkgreen')) +
-  scale_color_manual(values = c('darkgrey', 'darkgreen')) +
+  scale_fill_manual(values = c('darkgreen', 'darkgrey')) +
+  scale_color_manual(values = c('darkgreen', 'darkgrey')) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         plot.subtitle = element_text(size = 9),
         legend.position = 'bottom') +
@@ -129,14 +129,12 @@ plot(fit_gss) +
 y\_{p, o} &\\sim Binomial(n\_p, \\theta\_{p, o}) \\\\
 \\theta\_{p, o} &\\sim Normal(\\mu\_{d(p), o}, \\sigma^\\theta) \\\\
 \\mu\_{d, o} &= \\sum\_{t \< d} \\delta\_{t, o} + \\alpha\_o \\\\
-\\delta\_{d, o} &\\sim Normal(\\delta\_{d-1, o}, \\sigma^\\delta)
 \\end{align\*}
-](https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Balign%2A%7D%0Ay_%7Bp%2C%20o%7D%20%26%5Csim%20Binomial%28n_p%2C%20%5Ctheta_%7Bp%2C%20o%7D%29%20%5C%5C%0A%5Ctheta_%7Bp%2C%20o%7D%20%26%5Csim%20Normal%28%5Cmu_%7Bd%28p%29%2C%20o%7D%2C%20%5Csigma%5E%5Ctheta%29%20%5C%5C%0A%5Cmu_%7Bd%2C%20o%7D%20%26%3D%20%5Csum_%7Bt%20%3C%20d%7D%20%5Cdelta_%7Bt%2C%20o%7D%20%2B%20%5Calpha_o%20%5C%5C%0A%5Cdelta_%7Bd%2C%20o%7D%20%26%5Csim%20Normal%28%5Cdelta_%7Bd-1%2C%20o%7D%2C%20%5Csigma%5E%5Cdelta%29%0A%5Cend%7Balign%2A%7D%0A
+](https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Balign%2A%7D%0Ay_%7Bp%2C%20o%7D%20%26%5Csim%20Binomial%28n_p%2C%20%5Ctheta_%7Bp%2C%20o%7D%29%20%5C%5C%0A%5Ctheta_%7Bp%2C%20o%7D%20%26%5Csim%20Normal%28%5Cmu_%7Bd%28p%29%2C%20o%7D%2C%20%5Csigma%5E%5Ctheta%29%20%5C%5C%0A%5Cmu_%7Bd%2C%20o%7D%20%26%3D%20%5Csum_%7Bt%20%3C%20d%7D%20%5Cdelta_%7Bt%2C%20o%7D%20%2B%20%5Calpha_o%20%5C%5C%0A%5Cend%7Balign%2A%7D%0A
 "
 \\begin{align*}
 y_{p, o} &\\sim Binomial(n_p, \\theta_{p, o}) \\\\
 \\theta_{p, o} &\\sim Normal(\\mu_{d(p), o}, \\sigma^\\theta) \\\\
 \\mu_{d, o} &= \\sum_{t \< d} \\delta_{t, o} + \\alpha_o \\\\
-\\delta_{d, o} &\\sim Normal(\\delta_{d-1, o}, \\sigma^\\delta)
 \\end{align*}
 ")

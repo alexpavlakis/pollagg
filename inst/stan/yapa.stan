@@ -3,8 +3,8 @@ data {
   int n_polls;
   int n_options;
   int y[n_polls, n_options];
-  int n[n_polls];
-  int day_id[n_polls];
+  int n[n_polls, 1];
+  int day_id[n_polls, 1];
   real<lower = 0, upper = 1> prior_pct[n_options];
 }
 parameters {
@@ -37,7 +37,7 @@ model {
   for(o in 1:n_options) {
     for(p in 1:n_polls) {
       y[p, o] ~ binomial(n[p], theta[p, o]);
-      theta[p, o] ~ normal(mu[day_id[p], o], theta_sigma);
+      theta[p, o] ~ normal(mu[day_id[p, 1], o], theta_sigma);
     }
   }
 }

@@ -86,15 +86,16 @@ head(grass_gss)
 ```
 
 ```{r gss_model, results = F}
+
 y <- select(grass_gss, legal, illegal)
 n <- grass_gss$n
 dates <- grass_gss$year
 
 fit_gss <- yapa(y = y, n = n, dates = dates)
-
 ```
 
 ```{r gss_res}
+
 plot(fit_gss) + 
   ylim(0, 1) +
   scale_fill_manual(values = c('darkgreen', 'darkgrey')) +

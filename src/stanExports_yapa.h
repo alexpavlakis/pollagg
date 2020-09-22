@@ -44,8 +44,8 @@ private:
         int n_polls;
         int n_options;
         std::vector<std::vector<int> > y;
-        std::vector<int> n;
-        std::vector<int> day_id;
+        std::vector<std::vector<int> > n;
+        std::vector<std::vector<int> > day_id;
         std::vector<double> prior_pct;
 public:
     model_yapa(stan::io::var_context& context__,
@@ -111,23 +111,31 @@ public:
             }
             current_statement_begin__ = 6;
             validate_non_negative_index("n", "n_polls", n_polls);
-            context__.validate_dims("data initialization", "n", "int", context__.to_vec(n_polls));
-            n = std::vector<int>(n_polls, int(0));
+            validate_non_negative_index("n", "1", 1);
+            context__.validate_dims("data initialization", "n", "int", context__.to_vec(n_polls,1));
+            n = std::vector<std::vector<int> >(n_polls, std::vector<int>(1, int(0)));
             vals_i__ = context__.vals_i("n");
             pos__ = 0;
             size_t n_k_0_max__ = n_polls;
-            for (size_t k_0__ = 0; k_0__ < n_k_0_max__; ++k_0__) {
-                n[k_0__] = vals_i__[pos__++];
+            size_t n_k_1_max__ = 1;
+            for (size_t k_1__ = 0; k_1__ < n_k_1_max__; ++k_1__) {
+                for (size_t k_0__ = 0; k_0__ < n_k_0_max__; ++k_0__) {
+                    n[k_0__][k_1__] = vals_i__[pos__++];
+                }
             }
             current_statement_begin__ = 7;
             validate_non_negative_index("day_id", "n_polls", n_polls);
-            context__.validate_dims("data initialization", "day_id", "int", context__.to_vec(n_polls));
-            day_id = std::vector<int>(n_polls, int(0));
+            validate_non_negative_index("day_id", "1", 1);
+            context__.validate_dims("data initialization", "day_id", "int", context__.to_vec(n_polls,1));
+            day_id = std::vector<std::vector<int> >(n_polls, std::vector<int>(1, int(0)));
             vals_i__ = context__.vals_i("day_id");
             pos__ = 0;
             size_t day_id_k_0_max__ = n_polls;
-            for (size_t k_0__ = 0; k_0__ < day_id_k_0_max__; ++k_0__) {
-                day_id[k_0__] = vals_i__[pos__++];
+            size_t day_id_k_1_max__ = 1;
+            for (size_t k_1__ = 0; k_1__ < day_id_k_1_max__; ++k_1__) {
+                for (size_t k_0__ = 0; k_0__ < day_id_k_0_max__; ++k_0__) {
+                    day_id[k_0__][k_1__] = vals_i__[pos__++];
+                }
             }
             current_statement_begin__ = 8;
             validate_non_negative_index("prior_pct", "n_options", n_options);
@@ -402,7 +410,7 @@ public:
                     current_statement_begin__ = 39;
                     lp_accum__.add(binomial_log<propto__>(get_base1(get_base1(y, p, "y", 1), o, "y", 2), get_base1(n, p, "n", 1), get_base1(theta, p, o, "theta", 1)));
                     current_statement_begin__ = 40;
-                    lp_accum__.add(normal_log<propto__>(get_base1(theta, p, o, "theta", 1), get_base1(mu, get_base1(day_id, p, "day_id", 1), o, "mu", 1), theta_sigma));
+                    lp_accum__.add(normal_log<propto__>(get_base1(theta, p, o, "theta", 1), get_base1(mu, get_base1(get_base1(day_id, p, "day_id", 1), 1, "day_id", 2), o, "mu", 1), theta_sigma));
                 }
             }
         } catch (const std::exception& e) {

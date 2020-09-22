@@ -21,7 +21,7 @@ yapa <- function(y, n, dates = NULL, all_dates = NULL, prior_pct = NULL,
                  chains = 4, iter = 2000, ...) {
   m <- list(
     y = as.matrix(y),
-    n = n,
+    n = as.matrix(n),
     dates = dates,
     all_dates = all_dates,
     prior_pct = prior_pct,
@@ -73,9 +73,7 @@ fit.yapa <- function(m, ...) {
     y = m$y,
     n = m$n,
     prior_pct = m$prior_pct,
-    day_id = match(m$dates, unique(m$dates)),
-    poll_dev_sigma = m$poll_dev_sigma,
-    trend_dev_sigma = m$trend_dev_sigma
+    day_id = as.matrix(match(m$dates, unique(m$dates)))
   )
   args <- list(
     object = stanmodels$yapa,
