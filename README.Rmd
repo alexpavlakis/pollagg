@@ -44,11 +44,11 @@ An additional argument `all_dates` is available if you want to produce specific 
 
 `yapa` returns a list with:
 
-* `trend` a `data.frame` of the underlying trend and it's 90% uncertainty interval;
+* `trend` a `data.frame` of the underlying trend and its 90% uncertainty interval;
 * `pct` a `data.frame` of the smoothed poll averages and their 90% uncertainty intervals;
 * `delta` a `data.frame` of the estimated changes in trend and their 90% uncertainty intervals;
 * `polls` a `data.frame` of the raw polling data on which the model is built;
-* And other elements from the model arguments and results.
+* And other model arguments and results.
 
 ```{r obama_mccain_data}
 library(pollagg)
@@ -120,9 +120,9 @@ plot(fit_gss) +
 
 # Methodology
 
-The underlying framework is a hierarchical, nonlinear model which partially pools poll averages ($\theta$) for each option ($o$) in each poll ($p$) toward their trend ($\mu$) on each day ($d$).  The trend is estimated from a baseline rate ($\alpha$) and daily changes ($\delta$), which naturally estimates nonlinear trends.
+The underlying framework is a hierarchical, nonlinear model which partially pools poll averages ($\theta$) for each option ($o$) in each poll ($p$) toward their trend ($\mu$) on each day ($d$).  The trend is estimated from a baseline rate ($\alpha$) and daily changes ($\delta$), which naturally picks up on nonlinearity.
 
-The model is fit with [Stan](www.https://mc-stan.org/).
+The model is fit with [Stan](https://www.https://mc-stan.org/).
 
 
 $$

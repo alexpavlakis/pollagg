@@ -21,8 +21,8 @@ devtools::install_github("alexpavlakis/pollagg")
 
 # Examples
 
-The main function `yapa` (yet another poll aggregator) takes three main
-arguments:
+The poll aggregation function `yapa` (yet another poll aggregator) takes
+three main arguments:
 
 1.  `y` is a matrix of counts for responses (columns) for each poll or
     survey (rows);
@@ -37,7 +37,7 @@ hypothetical results if you had conducted them on the 15th instead.
 
 `yapa` returns a list with:
 
-  - `trend` a `data.frame` of the underlying trend and it’s 90%
+  - `trend` a `data.frame` of the underlying trend and its 90%
     uncertainty interval;
   - `pct` a `data.frame` of the smoothed poll averages and their 90%
     uncertainty intervals;
@@ -45,7 +45,7 @@ hypothetical results if you had conducted them on the 15th instead.
     90% uncertainty intervals;
   - `polls` a `data.frame` of the raw polling data on which the model is
     built;
-  - And other elements from the model arguments and results.
+  - And other model arguments and results.
 
 <!-- end list -->
 
@@ -152,9 +152,9 @@ trend is estimated from a baseline rate
 (![\\alpha](https://latex.codecogs.com/png.latex?%5Calpha "\\alpha"))
 and daily changes
 (![\\delta](https://latex.codecogs.com/png.latex?%5Cdelta "\\delta")),
-which naturally estimates nonlinear trends.
+which naturally picks up on nonlinearity.
 
-The model is fit with [Stan](www.https://mc-stan.org/).
+The model is fit with [Stan](https://www.https://mc-stan.org/).
 
   
 ![

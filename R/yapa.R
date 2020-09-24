@@ -218,14 +218,14 @@ print.yapafit <- function(x, ...) print(x[10:13])
 
 #' summarize a yapa model
 #'
-#' @param x a yapafit model.
+#' @param object a yapafit model.
 #' @param ... additional arguments.
 #'
 #' @export
-summary.yapafit <- function(x, ...) {
-  list("delta" = summary(x$delta),
-       "polls" = summary(x$polls),
-       "pct" = summary(x$pct),
-       "trend" = summary(x$trend))
+summary.yapafit <- function(object, ...) {
+  list("delta" = summary(object$delta),
+       "polls" = summary(object$polls),
+       "pct"   = summary(object$pct),
+       "trend" = summary(object$trend))
 }
 

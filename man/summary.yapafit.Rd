@@ -4,10 +4,10 @@
 \alias{summary.yapafit}
 \title{summarize a yapa model}
 \usage{
-\method{summary}{yapafit}(x, ...)
+\method{summary}{yapafit}(object, ...)
 }
 \arguments{
-\item{x}{a yapafit model.}
+\item{object}{a yapafit model.}
 
 \item{...}{additional arguments.}
 }
